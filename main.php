@@ -1,13 +1,13 @@
 <?php
 
-// 1. Interfaz común
+
 interface ProductoInterfaz {
     public function obtenerNombre(): string;
     public function calcularPrecioFinal(): float;
     public function obtenerDetalleLogistica(): string;
 }
 
-// 2. Clases Concretas
+
 class ProductoEstandard implements ProductoInterfaz {
     public function __construct(private string $nombre, private float $precioBase) {}
     public function obtenerNombre(): string { return $this->nombre; }
@@ -31,25 +31,25 @@ class ProductoPesado implements ProductoInterfaz {
     public function obtenerDetalleLogistica(): string { return "Carga Pesada (>20 kg) (Flete especial + 2 operarios: $60.000 COP)"; }
 }
 
-// 3. Fábrica (Factory Method)
+
 class FabricaLogistica {
     public static function crearProducto(string $nombre, float $precioBase, float $pesoKg, bool $esDelicado): ProductoInterfaz {
-        // Regla 1: Si pesa más de 20 kg -> Carga Pesada
+        
         if ($pesoKg > 20) {
             return new ProductoPesado($nombre, $precioBase);
         }
         
-        // Regla 2: Si es delicado (pantalla/vidrio) -> Producto Frágil
+        
         if ($esDelicado) {
             return new ProductoFragil($nombre, $precioBase);
         }
 
-        // Regla 3: Hasta 10 kg y no delicado -> Estándar (Cartón)
+        
         return new ProductoEstandard($nombre, $precioBase);
     }
 }
 
-// 4. Catálogo de prueba
+
 $catalogoPrueba = [
     [
         "nombre" => "Radio Portátil Bluetooth", 
